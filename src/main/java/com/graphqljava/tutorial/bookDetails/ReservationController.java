@@ -5,35 +5,24 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 @Slf4j
 @Controller
+
+/*
+query {
+  getMatchedReservation(items: [{partnerId:"p1", confirmationNumber:"c1"}, {partnerId:"p2", confirmationNumber:"c2"}]){
+    reservationIds
+  }
+}
+ */
+
 public class ReservationController {
     @QueryMapping
-    public Reservation getMatchedReservation(@Argument ItemList itemList) {
-        List<Item> items = Arrays.asList(itemList.getItems());
-        if (items == null) {
-            System.out.println("toothless: item is null");
-        }
-        else if (items.size()==0) {
-            System.out.println("item is empty");
-        }
-        else {
-            System.out.println("ListItems confirNumb: " + items.get(0).getConfirmationNumber());
-            System.out.println("ListItems partId: " + items.get(0).getPartnerId());
-        }
-
-        List<String> resId = new ArrayList<>();
-        for (Item item : items) {
-            String res = item.getPartnerId()+item.getConfirmationNumber();
-            System.out.println("resId res ="+res);
-            resId.add(res);
-        }
-
-        System.out.println("resId="+resId.get(0));
-        return new Reservation(resId);
+    public List<Reservation> getMatchedReservation(@Argument List<Item> items) {
+        return items.stream()
+                .map(item -> new Reservation(item.getPartnerId()+item.getConfirmationNumber(), "reservationDetail"))
+                .collect(Collectors.toList());
     }
 }

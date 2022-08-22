@@ -1,9 +1,5 @@
 type Query {
-  getMatchedReservation(itemList: ItemList): Reservation
-}
-
-input ItemList {
-  items: [Item]
+  getMatchedReservation(items: [Item]): [Reservation]
 }
 
 input Item {
@@ -12,5 +8,6 @@ input Item {
 }
 
 type Reservation {
-  reservationIds: [String]
+  reservationId: String
+  reservationDetail: String
 }
