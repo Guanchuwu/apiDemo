@@ -13,7 +13,8 @@ import java.util.stream.Collectors;
 /*
 query {
   getMatchedReservation(items: [{partnerId:"p1", confirmationNumber:"c1"}, {partnerId:"p2", confirmationNumber:"c2"}]){
-    reservationIds
+    reservationId,
+    reservationDetail
   }
 }
  */
